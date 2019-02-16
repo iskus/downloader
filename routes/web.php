@@ -11,6 +11,17 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+
+
+
+
+
+Route::get('/', 'PagesController@home');
+
+Route::get('/targets', 'TargetsController@index');
+Route::post('/targets', 'TargetsController@store');
+Route::get('/targets/add', 'TargetsController@add');
+Route::get('/targets/{targets}/download', 'TargetsController@download');
