@@ -6,16 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Target extends Model
 {
-	protected $fillable = [
-		'status',
-		'link',
-	];
-
 	public $statuses = [
 		'pending',
 		'downloading',
 		'complete',
 		'error',
+	];
+	protected $fillable = [
+		'status',
+		'link',
 	];
 
 	public function __call($method, $parameters)
@@ -32,20 +31,21 @@ class Target extends Model
 		return ucfirst($this->status);
 	}
 
-	public function filename(): string
-	{
-		$pathInfo = pathinfo($this->link);
-		$extension = $pathInfo['extension'];
-		$fileName = 'target_' . $this->id;
-		if($extension){
-			$fileName .= '.' . $extension;
-		}
-		return $fileName;
-	}
-
 	public function filePath()
 	{
 		return 'downloads/'.$this->filename();
+	}
+
+	public function filename(): string
+	{
+		$pathInfo  = pathinfo($this->link);
+		$extension = $pathInfo['extension'];
+		$fileName  = 'target_'.$this->id;
+		if ($extension) {
+			$fileName .= '.'.$extension;
+		}
+
+		return $fileName;
 	}
 
 	public function completed()

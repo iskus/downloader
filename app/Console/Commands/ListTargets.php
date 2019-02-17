@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Target;
+use Illuminate\Console\Command;
 
 class ListTargets extends Command
 {

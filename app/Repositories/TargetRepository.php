@@ -2,9 +2,10 @@
 
 namespace App\Repositories;
 
-use App\Target;
 use App\Jobs\ProcessTarget;
+use App\Target;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * Class TargetRepository
@@ -14,23 +15,34 @@ use Illuminate\Support\Facades\Storage;
 class TargetRepository extends BaseRepository
 {
 	/**
-	 * @param $link
+	 * @param array $attributes
 	 *
-	 * @return Target
+	 * @return mixed
 	 */
-	public function create($link)
+	public function create($attributes)
 	{
-		$model         = new Target();
-		$model->link   = $link;
-		$model->status = 'pending';
-		$model->save();
-		ProcessTarget::dispatch($model);
+		if (($validator = Validator::make($attributes, ['link' => ['required', 'min:10', 'url']]))->fails()) {
+			return ['errors' => $validator->errors()];
+		}
 
-		return $model;
+		$attributes['status'] = 'pending';
+		$target               = new Target($attributes);
+
+		if ($target->save()) {
+			ProcessTarget::dispatch($target);
+
+			return $target;
+		}
+
+		return false;
+
 	}
 
 	public function getTarget($id): Target
 	{
+		/**
+		 * @var  Target
+		 */
 		return Target::findOrFail($id);
 	}
 
@@ -46,7 +58,7 @@ class TargetRepository extends BaseRepository
 
 	public function downloadFile(Target $target)
 	{
-		return Storage::download($target->filePath());
+		return Storage::exists($filePath = $target->filePath()) ? Storage::download($filePath) : null;
 	}
 
 

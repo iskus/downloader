@@ -2,26 +2,34 @@
 
 namespace App\Http\Controllers\Api;
 
-use Validator;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\Target as TargetResource;
+use App\Repositories\TargetRepository;
+use App\Target;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Http\Controllers\Controller;
-use App\Repositories\TargetRepository;
 
 class TargetsController extends Controller
 {
-    public function index(TargetRepository $targetRepository)
-    {
-        return $targetRepository->getList();
-    }
+	public function store(Request $request, TargetRepository $targetRepository)
+	{
+		if (($result = $targetRepository->create($request->all())) instanceof Target) {
+			return new TargetResource($result);
+		}
 
-    public function store(Request $request, TargetRepository $targetRepository)
-    {
-        return (new Response)->setStatusCode(201)->setContent($targetRepository->create($request->get('link')));
-    }
+		return $result;
+	}
 
-    public function download($targetId, TargetRepository $targetRepository)
-    {
-        return $targetRepository->downloadFile($targetRepository->getTarget($targetId));
-    }
+	/**
+	 * @param                                    $targetId
+	 * @param \App\Repositories\TargetRepository $targetRepository
+	 *
+	 * @return |null
+	 */
+	public function download($targetId, TargetRepository $targetRepository)
+	{
+		$target = $targetRepository->getTarget($targetId);
+		return $targetRepository->downloadFile($target)
+			?? new Response('No file', 404);
+	}
 }

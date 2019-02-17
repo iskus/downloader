@@ -11,7 +11,11 @@
 |
 */
 
+use App\Target;
+use App\Http\Resources\Target as TargetResource;
 
-Route::get('targets', 'Api\TargetsController@index');
+Route::get('/targets', function () {
+	return TargetResource::collection(Target::all());
+});
 Route::post('/targets', 'Api\TargetsController@store');
-Route::get('/targets/{targets}/download', 'Api\TargetsController@download');
+Route::get('/targets/{target}/download', 'Api\TargetsController@download');
