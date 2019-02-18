@@ -22,20 +22,7 @@ class TargetsController extends Controller
 
 	public function store(Request $request, TargetRepository $targetRepository)
 	{
-		$validator = Validator::make(
-			$request->all(),
-			[
-				'title' => 'required|unique:posts|max:255',
-				'body'  => 'required',
-			]
-		);
-
-		if ($validator->fails()) {
-			return redirect('post/create')
-				->withErrors($validator)
-				->withInput();
-		}
-		$target = $targetRepository->create($request->get('link'));
+		$target = $targetRepository->create($request->all());
 
 		return redirect('/targets')->withHeaders(
 			[
