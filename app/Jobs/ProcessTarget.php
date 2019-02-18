@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Repositories\TargetRepository;
 use App\Target;
 use Exception;
 use Illuminate\Bus\Queueable;
@@ -41,7 +40,7 @@ class ProcessTarget implements ShouldQueue
 	 *
 	 * @return void
 	 */
-	public function handle(TargetRepository $targetRepository): void
+	public function handle(): void
 	{
 
 		try {

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Target extends Model
 {
@@ -39,13 +40,18 @@ class Target extends Model
 	public function filename(): string
 	{
 		$pathInfo  = pathinfo($this->link);
-		$extension = $pathInfo['extension'];
+		$extension = $pathInfo['extension'] ?? '';
 		$fileName  = 'target_'.$this->id;
 		if ($extension) {
 			$fileName .= '.'.$extension;
 		}
 
 		return $fileName;
+	}
+
+	public function fileUrl()
+	{
+		return Storage::url($this->filePath());
 	}
 
 	public function completed()

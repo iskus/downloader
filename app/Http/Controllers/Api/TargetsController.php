@@ -29,7 +29,8 @@ class TargetsController extends Controller
 	public function download($targetId, TargetRepository $targetRepository)
 	{
 		$target = $targetRepository->getTarget($targetId);
+
 		return $targetRepository->downloadFile($target)
-			?? new Response('No file', 404);
+			?? new Response(['error' => 'No file'], 404);
 	}
 }

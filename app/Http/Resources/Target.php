@@ -19,8 +19,8 @@ class Target extends JsonResource
 			'id'         => $this->id,
 			'link'       => $this->link,
 			'status'     => $this->status,
-			'created_at' => $this->created_at,
-			'updated_at' => $this->updated_at,
+//			'created_at' => $this->created_at,
+//			'updated_at' => $this->updated_at,
 		];
 	}
 }
