@@ -2,17 +2,15 @@
 
 namespace App\Jobs;
 
-use App\Repositories\TargetRepository;
 use App\Target;
+use Exception;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-
-use Exception;
 
 
 class ProcessTarget implements ShouldQueue
@@ -34,7 +32,7 @@ class ProcessTarget implements ShouldQueue
 	 */
 	public function __construct(Target $target)
 	{
-		$this->target           = $target;
+		$this->target = $target;
 	}
 
 	/**
@@ -42,7 +40,7 @@ class ProcessTarget implements ShouldQueue
 	 *
 	 * @return void
 	 */
-	public function handle(TargetRepository $targetRepository): void
+	public function handle(): void
 	{
 
 		try {

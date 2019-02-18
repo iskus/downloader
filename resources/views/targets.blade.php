@@ -6,17 +6,17 @@
 
     <div class="panel-body">
         <!-- Отображение ошибок проверки ввода -->
-    @include('common.errors')
+        @include('common.errors')
         <h1 class="title">Put Target</h1>
-    <!-- Форма новой задачи -->
+        <!-- Форма новой задачи -->
         <form action="{{ url('targets') }}" method="POST" class="form-horizontal">
             {{ csrf_field() }}
 
             <div class="field">
-                <label class="label" for="url">Resouce URL</label>
+                <label class="label" for="link">Resouce URL</label>
 
                 <div class="control">
-                    <input class="input {{ $errors->has('url') ? 'is-danger' : '' }}" name="link"
+                    <input class="input {{ $errors->has('link') ? 'is-danger' : '' }}" name="link"
                            value="{{ old('link') }}"
                            placeholder="Resource URL" type="url" required>
                 </div>
@@ -57,6 +57,6 @@
             </tbody>
         </table>
     @else
-        <p>Sorry, there are not any targets!</p>
+        <p>Party!!! No jobs! Time for blobs!</p>
     @endif
 @endsection
